@@ -33,6 +33,7 @@
 
           draw() {
                this.drawTree(this.root);
+               this.move(0);
           }
 
           drawTree(node) {
@@ -48,18 +49,25 @@
                          this.adjust(this.root.getNode(i), dx);
                     }
 
-               for (let i = 0; i < this.hopper.length; i++) {
-                    this.adjust(this.hopper[i][0], this.hopper[i][1]);
-                    this.hopper.splice(i, 1);
-               }
+               // for (let i = 0; i < this.hopper.length; i++) {
+
+               let temp = this.hopper.shift();
+               if (temp)
+                    for (let i = 0; i < temp[2]; i++) {
+                         this.adjust(temp[0], temp[1]);
+
+                         temp = this.hopper.shift();
+                    }
+               // }
           }
 
           adjust(node, amt) {
                node.x += amt;
                amt *= 1.5;
+
                for (let i = 0; i < node.size(); i++) {
                     //this.adjust(node.getNode(i), amt);
-                    this.hopper.push([node.getNode(i), amt]);
+                    this.hopper.push([node.getNode(i), amt, node.size()]);
                }
 
           }

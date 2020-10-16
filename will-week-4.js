@@ -8,20 +8,20 @@
      let height = 600;
      let tree;
      let sway = true;
-     let n = 1;
+     let n = 0;
 
      window.setup = function() {
           createCanvas(width, height);
           frameRate(20);
-          tree = new Tree(300, 380, 100, 5);
+          tree = new Tree(300, 380, 100, 4);
      }
 
      window.draw = function() {
-          n++;
-          if (n == 5) {
+          if (n == 10) {
                sway = !sway;
-               n = 1;
+               n = 0;
           }
+          n++;
 
 
           background(79, 146, 106);
@@ -32,8 +32,10 @@
           tree.draw();
           //if (sway) tree.move(1 / n);
           //  else tree.move(-1 / n);
-          if (n == 1) tree.move(sway ? 1.1 : -1.1);
-          tree.move(0);
+          if (n == 1) tree.move(sway ? 1.5 : -1.5);
+          if (n == 10) tree.move(sway ? 1.3 : -1.3)
+          if (n == 20) tree.move(sway ? 1.1 : -1.1);
+
 
 
      }
