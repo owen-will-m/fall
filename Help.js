@@ -6,7 +6,9 @@
           }, [cx, cy]) {
                return [cx + r * Math.cos(theta), cy + r * Math.sin(theta)];
           }
-
+          static btwn(a, b) {
+               return this.getRandomInt(b - a) + a;
+          }
 
           static along(limb, factor) {
                return this.toCartesian({
@@ -19,6 +21,9 @@
                return Math.floor(Math.random() * Math.floor(max));
           }
 
+          static between(a, b) {
+               return this.getRandomInt((b - a) * 100) / 100.0 + a;
+          }
           static checkRectOverlap(rect1, rect2) {
                /*
                 * Each array in parameter is one rectangle

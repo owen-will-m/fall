@@ -7,8 +7,8 @@
           constructor(x, imgs) {
                let index = Help.getRandomInt(5) + 1;
                this.x = x;
-               this.y = 50;
-
+               this.y = -50;
+               this.rotate = Help.between(0, Math.PI * 2)
                this.xv = 0;
                this.yv = 1;
                this.img = imgs[index];
@@ -18,9 +18,24 @@
 
           }
 
+          blow() {
+               this.xv += Help.between(.05, .1) + 1;
+               this.yv -= Help.between(.1, .2);
+          }
+
           draw() {
                fill(163, 80, 15);
+               translate(this.x + this.w / 2, this.y + this.h / 2);
+               rotate(this.rotate);
+               translate((this.x + this.w / 2) * -1, (this.y + this.h / 2) * -1);
                image(this.img, this.x, this.y, this.w, this.h);
+               translate(this.x + this.w / 2, this.y + this.h / 2);
+               rotate(this.rotate * -1);
+               translate((this.x + this.w / 2) * -1, (this.y + this.h / 2) * -1);
+
+               if (this.yv != 0) {
+                    this.rotate += .01 * (Math.abs(this.yv * this.xv - 1) / 1.5);
+               }
 
                if (this.yv == 0) {} else if (this.yv > 1) {
                     this.yv -= .1;
@@ -54,11 +69,11 @@
 
           checkCollide(cursor) {
                //hit the ground
-               if (this.y + this.h > 400) {
-                    this.y = 400 - this.h;
+               if (this.y + this.h > 500) {
+                    this.y = 500 - this.h;
                     this.yv = 0;
                }
-               if (this.y + this.h == 400) {
+               if (this.y + this.h == 500) {
                     if (Math.abs(this.xv) < .5) this.xv = 0;
 
                     if (this.xv > 0) {
@@ -70,8 +85,8 @@
                }
                //hit the Cursor
                if (Help.checkRectOverlap(this.toRect(), cursor.toRect())) {
-                    this.xv += cursor.xv;
-                    this.yv += cursor.yv;
+                    this.xv += cursor.xv * 2;
+                    this.yv += cursor.yv * 2;
                }
           }
 
