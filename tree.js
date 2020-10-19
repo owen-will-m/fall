@@ -2,7 +2,7 @@
 
      const NORTH = 3 * Math.PI / 2;
 
-     export class Tree {
+     export default class Tree {
 
 
           constructor(x, y, length, depth) {
@@ -10,6 +10,7 @@
                this.length = length;
                this.depth = depth;
                this.hopper = [];
+               this.moves = [];
                this.create();
           }
 
@@ -34,6 +35,7 @@
           draw() {
                this.drawTree(this.root);
                this.move(0);
+               console.log(this.hopper.length);
           }
 
           drawTree(node) {
@@ -45,20 +47,22 @@
 
           move(dx) {
                if (dx != 0)
+                    this.moves.push(dx);
+
+               if (this.hopper.length == 0) {
                     for (let i = 0; i < this.root.size(); i++) {
-                         this.adjust(this.root.getNode(i), dx);
+                         this.adjust(this.root.getNode(i), this.moves.shift());
                     }
+               } else {
+                    let temp = this.hopper.shift();
 
-               // for (let i = 0; i < this.hopper.length; i++) {
-
-               let temp = this.hopper.shift();
-               if (temp)
-                    for (let i = 0; i < temp[2]; i++) {
+                    let k = temp[2];
+                    for (let i = 0; i < k; i++) {
                          this.adjust(temp[0], temp[1]);
-
                          temp = this.hopper.shift();
                     }
-               // }
+               }
+
           }
 
           adjust(node, amt) {
